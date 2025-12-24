@@ -1,7 +1,8 @@
 <?php
 
-// a very lazy effort since we only have two object classes to validate
-// will probably move these to client side
+// Validation accepts arbitrary admin payloads and infers the fields to check from
+// the provided data. Each check only runs when its field is present, allowing the
+// same logic to validate multiple objects with dynamic field sets.
 
 class Validation extends Admin
 {
