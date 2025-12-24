@@ -27,22 +27,27 @@ class ApiActionTest extends ApiTest
         $this->reset();
         $db = new ApiSqlite();
         $c = $db->readConfig();
-        $db->saveConfig(['auto_ppp_user' => true]);
-        $this->reset();
-        $this->data()->e->at->username->value = null ;
-        $int = $this->unit()->test($this->data()->toPost());
-        $this->assertEquals(ACTION_AUTO,$int,'Auto ppp user');
-        $db->saveConfig(['auto_ppp_user' => false]);
-        $int = $this->unit()->test($this->data()->toPost());
-        $this->assertEquals(ACTION_DELETE_OLD,$int,'Auto ppp disabled');
-        $db->saveConfig(['auto_hs_user' => true]) ;
-        $this->data()->e->at->hotspot->value = true ;
-        $int = $this->unit()->test($this->data()->toPost());
-        $this->assertEquals(ACTION_AUTO,$int,'Auto hotspot user');
-        $this->data()->e->at->hotspot->value = false ;
-        $int = $this->unit()->test($this->data()->toPost());
-        $this->assertEquals(ACTION_DELETE_OLD,$int,'Auto no hotspot enabled');
-        $db->saveConfig($c);
+        try {
+            $db->saveConfig(['auto_ppp_user' => true]);
+            $this->reset();
+            $this->data()->e->at->username->value = null ;
+            $int = $this->unit()->test($this->data()->toPost());
+            $this->assertEquals(ACTION_AUTO,$int,'Auto ppp user');
+            $db->saveConfig(['auto_ppp_user' => false]);
+            $int = $this->unit()->test($this->data()->toPost());
+            $this->assertEquals(ACTION_DELETE_OLD,$int,'Auto ppp disabled');
+            $db->saveConfig(['auto_hs_user' => true]) ;
+            $this->data()->e->at->hotspot->value = true ;
+            $int = $this->unit()->test($this->data()->toPost());
+            $this->assertEquals(ACTION_AUTO,$int,'Auto hotspot user');
+            $this->data()->e->at->hotspot->value = false ;
+            $int = $this->unit()->test($this->data()->toPost());
+            $this->assertEquals(ACTION_DELETE_OLD,$int,'Auto no hotspot enabled');
+        } finally {
+            $db->saveConfig($c);
+        }
+
+        $this->assertEquals($c, $db->readConfig(), 'Configuration restored after test');
     }
 
     public function testFlip()
