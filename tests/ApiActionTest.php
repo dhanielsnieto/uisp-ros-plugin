@@ -154,8 +154,10 @@ class ApiActionTest extends ApiTest
     }
     protected function tearDown(): void
     {
-        parent::setUp();
+        parent::tearDown();
         $db = new ApiSqlite();
+        $db->delete(999,'services');
+        $db->delete(999,'network');
         $db->delete(999,'devices');
     }
 }
