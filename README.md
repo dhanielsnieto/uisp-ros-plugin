@@ -47,7 +47,7 @@ Please ensure that your mikrotik devices are added to the plugin and are online.
 
 # Using
 
-The custom attributes in Configution (4) should be listed in the form when creating or editing a service in Uisp.
+The custom attributes in Configuration (4) should be listed in the form when creating or editing a service in Uisp.
 1. Fill the device name to specify the router for the clients account (see making a device dropdown list below)
 2. PPPoE username and Password to provision PPPoE.
 3. Mac address to provision DHCP instead.
